@@ -3,85 +3,206 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ruleta de Tareas del Hogar</title>
+  <title>Ruleta de Tareas</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col items-center justify-center p-4 pb-20">
 
-  <!-- Pantalla de entrada -->
-  <div id="setupScreen" class="w-full max-w-screen-xl hidden:flex lg:flex flex-row justify-center items-start">
-    <!-- Banner izquierdo -->
-    <div class="hidden lg:block mx-6">
-      <iframe src="https://www.profitableratecpm.com/c9ay0khwd7?key=4e1a196039ed148cf17013f0b22c8b7e" width="300" height="600" style="border:0;" scrolling="no" allowtransparency="true"></iframe>
-    </div>
-    <!-- Contenido principal -->
-    <div class="flex-1 max-w-xl">
-      <h1 class="text-2xl font-bold mb-4 text-center">Reparto de Tareas del Hogar</h1>
-      <div class="mb-4">
-        <label class="block font-semibold mb-2">Personas:</label>
-        <textarea id="peopleInput" rows="4" class="w-full p-2 border rounded" placeholder="Introduce un nombre por línea..."></textarea>
-      </div>
-      <div class="mb-4">
-        <label class="block font-semibold mb-2">Tareas:</label>
-        <textarea id="tasksInput" rows="4" class="w-full p-2 border rounded" placeholder="Introduce una tarea por línea..."></textarea>
-      </div>
-      <button onclick="startGame()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full">Siguiente</button>
-    </div>
-    <!-- Banner derecho -->
-    <div class="hidden lg:block mx-6">
-      <iframe src="https://www.profitableratecpm.com/c9ay0khwd7?key=4e1a196039ed148cf17013f0b22c8b7e" width="300" height="600" style="border:0;" scrolling="no" allowtransparency="true"></iframe>
-    </div>
+
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col items-center justify-center p-4">
+
+  <!-- Banner izquierdo 300x600-->
+  <div class="hidden md:flex fixed top-1/2 left-8 transform -translate-y-1/2 w-[300px] h-[600px] bg-gray-200 border shadow-lg items-center justify-center z-40">
+  <!-- Aquí puedes insertar contenido dinámico o una imagen -->
+<script type="text/javascript">
+  atOptions = {
+    'key' : 'df4af0ee9d4b604be80f627b68fdaf1d',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/df4af0ee9d4b604be80f627b68fdaf1d/invoke.js"></script>
+</div>
+
+
+  <!-- Banner derecho 300x600-->
+  <div class="hidden md:flex fixed top-1/2 right-8 transform -translate-y-1/2 w-[300px] h-[600px] bg-gray-200 border shadow-lg items-center justify-center z-40">
+  <!-- Aquí puedes insertar contenido dinámico o una imagen -->
+  <span class="text-sm text-center p-2">🛒 ¡Anúnciate aquí! <br> Tu banner va aquí.</span>
+</div>
+
+  <!-- Banner Mobile 300x50 -->
+  <div class="md:hidden fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[300px] h-[50px] bg-yellow-300 shadow-md flex items-center justify-center z-40">
+    <span class="text-sm text-gray-800 font-semibold">📣 ¡Promoción exclusiva móvil!</span>
   </div>
 
-  <!-- Pantalla de ruleta -->
-  <div id="wheelScreen" class="hidden flex-row justify-center items-start w-full max-w-screen-xl">
-    <div class="hidden lg:block mx-6">
-      <iframe src="https://www.profitableratecpm.com/c9ay0khwd7?key=4e1a196039ed148cf17013f0b22c8b7e" width="300" height="600" style="border:0;" scrolling="no" allowtransparency="true"></iframe>
+
+<!-- Pantalla de entrada -->
+  <div id="setupScreen" class="w-full max-w-xl">
+    <h1 id="titulo" class="text-2xl font-bold mb-4 text-center">🛠️ Reparto de Tareas del Hogar</h1>
+
+    <div class="mb-4 text-center">
+      <select id="langSelect" onchange="cambiarIdioma()" class="p-2 border rounded">
+        <option value="es">🇪🇸 Español</option>
+        <option value="ca">🟡🔴 Català</option>
+        <option value="en">🇬🇧 English</option>
+      </select>
     </div>
-    <div class="flex flex-col items-center flex-1 max-w-xl">
-      <h2 class="text-xl font-bold mb-2">Turno de: <span id="currentPlayer" class="text-blue-600"></span></h2>
-      <canvas id="wheelCanvas" width="300" height="300" class="my-4"></canvas>
-      <button id="spinButton" onclick="spinWheel()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full">Girar ruleta</button>
-      <button onclick="nextPlayer()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded w-full mt-2 hidden" id="nextButton">Siguiente participante</button>
+
+    <div class="mb-4">
+      <label id="labelPersonas" class="block font-semibold mb-2">👥 Personas:</label>
+      <textarea id="peopleInput" rows="4" class="w-full p-2 border rounded"></textarea>
     </div>
-    <div class="hidden lg:block mx-6">
-      <iframe src="https://www.profitableratecpm.com/c9ay0khwd7?key=4e1a196039ed148cf17013f0b22c8b7e" width="300" height="600" style="border:0;" scrolling="no" allowtransparency="true"></iframe>
+
+    <div class="mb-4">
+      <label id="labelTareas" class="block font-semibold mb-2">📋 Tareas:</label>
+      <textarea id="tasksInput" rows="4" class="w-full p-2 border rounded"></textarea>
     </div>
+
+    <button id="btnSiguiente" onclick="startGame()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full">▶️ Siguiente</button>
+    <button id="btnUltima" onclick="loadLastAssignments()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded w-full mt-2">🕑 Ver última asignación guardada</button>
+    <button id="btnHistorial" onclick="verHistorial()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded w-full mt-2">📚 Ver historial</button>
+    <button id="btnBorrarHistorial" onclick="borrarHistorial()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded w-full mt-2">🗑️ Eliminar historial</button>
+    <button id="btnResetear" onclick="resetearDatosEntrada()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded w-full mt-2">🔄 Resetear nombres y tareas</button>
+  </div>
+    <!-- Pantalla de ruleta -->
+  <div id="wheelScreen" class="hidden flex flex-col items-center w-full max-w-xl">
+    <h2 class="text-xl font-bold mb-2">🎯 Turno de: <span id="currentPlayer" class="text-blue-600"></span></h2>
+    <canvas id="wheelCanvas" width="300" height="300" class="my-4"></canvas>
+    <button id="spinButton" onclick="spinWheel()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full">🎲 Girar ruleta</button>
+    <button id="nextButton" onclick="nextPlayer()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded w-full mt-2 hidden">⏭️ Siguiente participante</button>
   </div>
 
   <!-- Pantalla de resumen -->
-  <div id="summaryScreen" class="hidden w-full max-w-screen-xl flex-row justify-center items-start">
-    <div class="hidden lg:block mx-6">
-      <iframe src="https://www.profitableratecpm.com/c9ay0khwd7?key=4e1a196039ed148cf17013f0b22c8b7e" width="300" height="600" style="border:0;" scrolling="no" allowtransparency="true"></iframe>
-    </div>
-    <div class="flex-1 max-w-xl">
-      <h2 class="text-2xl font-bold mb-4 text-center">Resumen de Tareas</h2>
-      <ul id="summaryList" class="list-disc pl-5 mb-4"></ul>
-      <button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full">Volver a empezar</button>
-    </div>
-    <div class="hidden lg:block mx-6">
-      <iframe src="https://www.profitableratecpm.com/c9ay0khwd7?key=4e1a196039ed148cf17013f0b22c8b7e" width="300" height="600" style="border:0;" scrolling="no" allowtransparency="true"></iframe>
-    </div>
+  <div id="summaryScreen" class="hidden w-full max-w-xl">
+    <h2 id="resumenTitulo" class="text-2xl font-bold mb-4 text-center">📋 Resumen de Tareas</h2>
+    <ul id="summaryList" class="list-disc pl-5 mb-4"></ul>
+    <button id="btnDescargar" onclick="downloadSummary()" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded w-full mb-2">💾 Descargar resumen</button>
+    <button id="btnCompartir" onclick="compartirPorWhatsApp()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded w-full mb-2">📲 Compartir por WhatsApp</button>
+    <button id="btnVolver" onclick="location.reload()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full">🔁 Volver a empezar</button>
   </div>
 
-  <!-- Banner móvil inferior -->
-  <div class="fixed bottom-0 w-full flex justify-center bg-white shadow-lg lg:hidden z-50">
-    <iframe
-      src="https://www.profitableratecpm.com/c9ay0khwd7?key=4e1a196039ed148cf17013f0b22c8b7e"
-      width="320"
-      height="50"
-      style="border:0;"
-      scrolling="no"
-      allowtransparency="true">
-    </iframe>
-  </div>
-
-  <!-- Script -->
   <script>
+    // Recordar idioma entre sesiones
+    window.onload = function () {
+      const langGuardado = localStorage.getItem("idioma") || "es";
+      document.getElementById("langSelect").value = langGuardado;
+      cambiarIdioma();
+
+      const savedPeople = localStorage.getItem("inputPeople");
+      const savedTasks = localStorage.getItem("inputTasks");
+
+      if (savedPeople) {
+        document.getElementById("peopleInput").value = savedPeople;
+      } else {
+        document.getElementById("peopleInput").value = "Anna\nDavid\nPeter";
+      }
+
+      if (savedTasks) {
+        document.getElementById("tasksInput").value = savedTasks;
+      } else {
+        document.getElementById("tasksInput").value = tareasPorDefecto[langGuardado].join("\n");
+      }
+    };
+
+    const tareasPorDefecto = {
+      es: ["Cocinar 👨🏻‍🍳", "Limpiar lavabo 🧼", "Barrer 🧹"],
+      ca: ["Cuinar 👨🏻‍🍳", "Netejar lavabo 🧼", "Escombrar 🧹"],
+      en: ["Cook 👨🏻‍🍳", "Clean bathroom 🧼", "Sweep 🧹"]
+    };
+
+    const textos = {
+      es: {
+        titulo: "🛠️ Reparto de Tareas del Hogar",
+        personas: "👥 Personas:",
+        tareas: "📋 Tareas:",
+        botonSiguiente: "▶️ Siguiente",
+        ultimaAsignacion: "🕑 Ver última asignación guardada",
+        verHistorial: "📚 Ver historial",
+        borrarHistorial: "🗑️ Eliminar historial",
+        resetearDatos: "🔄 Resetear nombres y tareas",
+        resumen: "📋 Resumen de Tareas",
+        descargar: "💾 Descargar resumen",
+        compartir: "📲 Compartir por WhatsApp",
+        volver: "🔁 Volver a empezar",
+        verResumen: "📋 Ver resumen",
+        sinTarea: "Sin tarea asignada"
+      },
+      ca: {
+        titulo: "🛠️ Repartiment de Tasques de la Llar",
+        personas: "👥 Persones:",
+        tareas: "📋 Tasques:",
+        botonSiguiente: "▶️ Següent",
+        ultimaAsignacion: "🕑 Veure l'última assignació",
+        verHistorial: "📚 Veure historial",
+        borrarHistorial: "🗑️ Eliminar historial",
+        resetearDatos: "🔄 Reiniciar noms i tasques",
+        resumen: "📋 Resum de Tasques",
+        descargar: "💾 Descarregar resum",
+        compartir: "📲 Compartir per WhatsApp",
+        volver: "🔁 Tornar a començar",
+        verResumen: "📋 Veure resum",
+        sinTarea: "Sense tasca assignada"
+      },
+      en: {
+        titulo: "🛠️ Household Chore Assignment",
+        personas: "👥 People:",
+        tareas: "📋 Chores:",
+        botonSiguiente: "▶️ Next",
+        ultimaAsignacion: "🕑 View last assignment",
+        verHistorial: "📚 View history",
+        borrarHistorial: "🗑️ Clear history",
+        resetearDatos: "🔄 Reset names and chores",
+        resumen: "📋 Chore Summary",
+        descargar: "💾 Download summary",
+        compartir: "📲 Share via WhatsApp",
+        volver: "🔁 Start over",
+        verResumen: "📋 View summary",
+        sinTarea: "No chore assigned"
+      }
+    };
+
+    function cambiarIdioma() {
+      const lang = document.getElementById("langSelect").value;
+      localStorage.setItem("idioma", lang);
+      const t = textos[lang];
+
+      document.getElementById("titulo").textContent = t.titulo;
+      document.getElementById("labelPersonas").textContent = t.personas;
+      document.getElementById("labelTareas").textContent = t.tareas;
+      document.getElementById("btnSiguiente").textContent = t.botonSiguiente;
+      document.getElementById("btnUltima").textContent = t.ultimaAsignacion;
+      document.getElementById("btnHistorial").textContent = t.verHistorial;
+      document.getElementById("btnBorrarHistorial").textContent = t.borrarHistorial;
+      document.getElementById("btnResetear").textContent = t.resetearDatos;
+      document.getElementById("resumenTitulo").textContent = t.resumen;
+      document.getElementById("btnDescargar").textContent = t.descargar;
+      document.getElementById("btnCompartir").textContent = t.compartir;
+      document.getElementById("btnVolver").textContent = t.volver;
+
+      // Si no hay tareas personalizadas guardadas, actualizar las por defecto
+      const savedTasks = localStorage.getItem("inputTasks");
+      if (!savedTasks) {
+        document.getElementById("tasksInput").value = tareasPorDefecto[lang].join("\n");
+      }
+    }
     let people = [], tasks = [], assignments = {}, currentIndex = 0, wheelColors = [];
     let rotation = 0;
     const wheel = document.getElementById('wheelCanvas');
     const ctx = wheel.getContext('2d');
+
+    function resetearDatosEntrada() {
+      if (confirm("¿Seguro que quieres resetear los datos a valores por defecto?")) {
+        localStorage.removeItem("inputPeople");
+        localStorage.removeItem("inputTasks");
+
+        const lang = localStorage.getItem("idioma") || "es";
+        document.getElementById("peopleInput").value = "Anna\nDavid\nPeter";
+        document.getElementById("tasksInput").value = tareasPorDefecto[lang].join("\n");
+        alert("Datos restablecidos.");
+      }
+    }
 
     function getRandomColor() {
       const h = Math.floor(Math.random() * 360);
@@ -91,14 +212,23 @@
     }
 
     function startGame() {
-      people = document.getElementById("peopleInput").value.trim().split("\\n").filter(Boolean);
-      tasks = document.getElementById("tasksInput").value.trim().split("\\n").filter(Boolean);
+      const lang = localStorage.getItem("idioma") || "es";
+      const t = textos[lang];
+
+      localStorage.setItem("inputPeople", document.getElementById("peopleInput").value);
+      localStorage.setItem("inputTasks", document.getElementById("tasksInput").value);
+
+      people = document.getElementById("peopleInput").value.trim().split("\n").filter(Boolean);
+      tasks = document.getElementById("tasksInput").value.trim().split("\n").filter(Boolean);
+
       if (people.length === 0 || tasks.length === 0) {
-        alert("Por favor, introduce al menos una persona y una tarea.");
+        alert("⚠️ " + t.personas + " y " + t.tareas + " son obligatorias.");
         return;
       }
+
       people.forEach(p => assignments[p] = []);
       wheelColors = tasks.map(() => getRandomColor());
+
       document.getElementById("setupScreen").classList.add("hidden");
       document.getElementById("wheelScreen").classList.remove("hidden");
       document.getElementById("currentPlayer").textContent = people[currentIndex];
@@ -108,9 +238,11 @@
     function drawWheel(angle = 0) {
       const arcSize = (2 * Math.PI) / tasks.length;
       ctx.clearRect(0, 0, wheel.width, wheel.height);
+
       ctx.save();
       ctx.translate(150, 150);
       ctx.rotate(angle);
+
       tasks.forEach((task, i) => {
         const start = i * arcSize;
         ctx.beginPath();
@@ -118,6 +250,7 @@
         ctx.moveTo(0, 0);
         ctx.arc(0, 0, 140, start, start + arcSize);
         ctx.fill();
+
         ctx.save();
         ctx.rotate(start + arcSize / 2);
         ctx.translate(90, 0);
@@ -128,7 +261,9 @@
         ctx.fillText(task, 0, 0);
         ctx.restore();
       });
+
       ctx.restore();
+
       ctx.beginPath();
       ctx.moveTo(150, 0);
       ctx.lineTo(140, 20);
@@ -138,20 +273,21 @@
     }
 
     function spinWheel() {
-      if (tasks.length === 0) {
-        alert("No quedan tareas.");
-        return;
-      }
+      if (tasks.length === 0) return;
+
       document.getElementById("spinButton").disabled = true;
+
       const arcSize = (2 * Math.PI) / tasks.length;
       const selectedIndex = Math.floor(Math.random() * tasks.length);
       const stopAngle = (2 * Math.PI * 5) + (Math.PI * 1.5 - (selectedIndex * arcSize) - arcSize / 2);
       const duration = 3000;
       const startTime = performance.now();
+
       function animate(time) {
         const progress = Math.min((time - startTime) / duration, 1);
         rotation = easeOutCubic(progress) * stopAngle;
         drawWheel(rotation);
+
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
@@ -160,13 +296,18 @@
           assignments[person].push(selectedTask);
           tasks.splice(selectedIndex, 1);
           wheelColors.splice(selectedIndex, 1);
+
           document.getElementById("spinButton").classList.add("hidden");
           document.getElementById("nextButton").classList.remove("hidden");
+
+          const lang = localStorage.getItem("idioma") || "es";
+          const t = textos[lang];
           if (tasks.length === 0) {
-            document.getElementById("nextButton").textContent = "Ver resumen";
+            document.getElementById("nextButton").textContent = t.verResumen;
           }
         }
       }
+
       requestAnimationFrame(animate);
     }
 
@@ -190,15 +331,115 @@
     function showSummary() {
       document.getElementById("wheelScreen").classList.add("hidden");
       document.getElementById("summaryScreen").classList.remove("hidden");
+
+      const lang = localStorage.getItem("idioma") || "es";
+      const t = textos[lang];
       const list = document.getElementById("summaryList");
       list.innerHTML = "";
+
       people.forEach(person => {
         const taskList = assignments[person];
         const li = document.createElement("li");
-        li.innerHTML = `<strong>${person}:</strong> ${taskList.length ? taskList.join(", ") : "Sin tarea asignada"}`;
+        li.innerHTML = `<strong>${person}:</strong> ${taskList.length ? taskList.join(", ") : t.sinTarea}`;
         list.appendChild(li);
       });
+
+      saveToLocalStorage();
+      saveToHistory();
+    }
+
+    function saveToLocalStorage() {
+      localStorage.setItem("asignacionesHogar", JSON.stringify(assignments));
+    }
+
+    function saveToHistory() {
+      const fecha = new Date().toLocaleString();
+      const registro = { fecha, datos: assignments };
+      const historial = JSON.parse(localStorage.getItem("historialTareas") || "[]");
+      historial.push(registro);
+      localStorage.setItem("historialTareas", JSON.stringify(historial));
+    }
+
+    function loadLastAssignments() {
+      const lang = localStorage.getItem("idioma") || "es";
+      const t = textos[lang];
+      const saved = localStorage.getItem("asignacionesHogar");
+      if (saved) {
+        const previous = JSON.parse(saved);
+        let content = t.resumen + ":\n\n";
+        for (const person in previous) {
+          const tareas = previous[person];
+          content += `${person}: ${tareas.length ? tareas.join(", ") : t.sinTarea}\n`;
+        }
+        alert(content);
+      } else {
+        alert("🚫 " + t.ultimaAsignacion);
+      }
+    }
+
+    function verHistorial() {
+      const lang = localStorage.getItem("idioma") || "es";
+      const t = textos[lang];
+      const historial = JSON.parse(localStorage.getItem("historialTareas") || "[]");
+      if (historial.length === 0) {
+        alert("📭 No hay historial disponible.");
+        return;
+      }
+
+      let texto = "📚 " + t.verHistorial + ":\n\n";
+      historial.forEach(entry => {
+        texto += `🕒 ${entry.fecha}\n`;
+        for (const persona in entry.datos) {
+          const tareas = entry.datos[persona];
+          texto += `– ${persona}: ${tareas.length ? tareas.join(", ") : t.sinTarea}\n`;
+        }
+        texto += "\n";
+      });
+
+      alert(texto);
+    }
+
+    function borrarHistorial() {
+      const lang = localStorage.getItem("idioma") || "es";
+      const t = textos[lang];
+      if (confirm("❗ " + t.borrarHistorial + "?")) {
+        localStorage.removeItem("historialTareas");
+        alert("🧹 Historial eliminado.");
+      }
+    }
+
+    function compartirPorWhatsApp() {
+      const lang = localStorage.getItem("idioma") || "es";
+      const t = textos[lang];
+      let mensaje = t.resumen + ":\n\n";
+      people.forEach(person => {
+        const taskList = assignments[person];
+        mensaje += `${person}: ${taskList.length ? taskList.join(", ") : t.sinTarea}\n`;
+      });
+
+      const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, "_blank");
+    }
+
+    function downloadSummary() {
+      const lang = localStorage.getItem("idioma") || "es";
+      const t = textos[lang];
+      let content = t.resumen + ":\n\n";
+      people.forEach(person => {
+        const taskList = assignments[person];
+        content += `${person}: ${taskList.length ? taskList.join(", ") : t.sinTarea}\n`;
+      });
+
+      const blob = new Blob([content], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "tareas_del_hogar.txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
   </script>
 </body>
 </html>
+      
